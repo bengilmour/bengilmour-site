@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sermons = await getCollection('sermons');
+
+const latestPosts = posts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 2);
+
+const latestSermon = sermons
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())[0];
+---
+
+<Layout title="Home">
+  <section class="site-hero">
+    <div>
+      <p class="eyebrow">Ben Gilmour</p>
+      <h1>Reflections, coaching, sermons and leadership formation.</h1>
+      <p>
+        A home for ministry resources, pastoral coaching, scripture-rich sermons, and thoughtful leadership formation.
+      </p>
+      <div class="links">
+        <a href="/about.astro">About</a>
+        <a href="/coaching.astro">Coaching</a>
+        <a href="/blog/">Blog</a>
+        <a href="/sermons/">Sermons</a>
+        <a href="/search.astro">Search</a>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature-card">
+        <h2>Coaching</h2>
+        <p>Practical support for leaders, teams, and ministry communities seeking clarity, momentum, and faithful practice.</p>
+      </article>
+      <article class="feature-card">
+        <h2>Blog</h2>
+        <p>Reflections on ministry, faith, leadership, and the journey of spiritual formation.</p>
+      </article>
+      <article class="feature-card">
+        <h2>Sermons</h2>
+        <p>Sermons and teaching resources rooted in scripture, community, and everyday discipleship.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="home-grid">
+    <div class="home-panel">
+      <div class="panel-header">
+        <h2>Latest Sermon</h2>
+        <a href="/sermons/">More sermons</a>
+      </div>
+      {latestSermon ? (
+        <article class="content-card">
+          <h3><a href={`/sermons/${latestSermon.id}/`}>{latestSermon.data.title}</a></h3>
+          <p>{latestSermon.data.description}</p>
+          <p class="meta">{latestSermon.data.pubDate.toLocaleDateString('en-AU')} · {latestSermon.data.location}</p>
+        </article>
+      ) : (
+        <p>No sermons available yet.</p>
+      )}
+    </div>
+
+    <div class="home-panel">
+      <div class="panel-header">
+        <h2>Featured Blog Posts</h2>
+        <a href="/blog/">More posts</a>
+      </div>
+      {latestPosts.length ? (
+        <div class="content-stack">
+          {latestPosts.map((post) => (
+            <article class="content-card" key={post.id}>
+              <h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
+              <p>{post.data.description}</p>
+              <p class="meta">{post.data.pubDate.toLocaleDateString('en-AU')}</p>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p>No blog posts available yet.</p>
+      )}
+    </div>
+  </section>
+</Layout>

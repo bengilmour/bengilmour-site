@@ -1,0 +1,19 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+const posts = await getCollection("blog");
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title="Blog">
+  <h1>Blog</h1>
+
+  {posts.map((post) => (
+    <article>
+      <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
+      <p>{post.data.description}</p>
+      <small>{post.data.pubDate.toLocaleDateString("en-AU")}</small>
+    </article>
+  ))}
+</Layout>

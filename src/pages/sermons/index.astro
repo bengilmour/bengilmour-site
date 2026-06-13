@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const sermons = await getCollection('sermons');
+sermons.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title="Sermons">
+  <h1>Sermons</h1>
+  <p>Browse sermons and spiritual teachings.</p>
+  <ul>
+    {sermons.map((sermon) => (
+      <li>
+        <a href={`/sermons/${sermon.id}/`}>
+          <strong>{sermon.data.title}</strong>
+        </a>
+        <p>{sermon.data.description}</p>
+        <small>{sermon.data.pubDate.toLocaleDateString('en-AU')}</small>
+      </li>
+    ))}
+  </ul>
+</Layout>

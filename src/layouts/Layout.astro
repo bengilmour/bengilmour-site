@@ -1,0 +1,32 @@
+---
+import '../styles/theme.css';
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title ? `${title} | Ben Gilmour` : 'Ben Gilmour'}</title>
+	</head>
+	<body>
+		<header class="site-header">
+			<nav class="site-nav">
+				<div class="brand">Ben Gilmour</div>
+				<div class="site-nav-links">
+					<a href="/">Home</a>
+					<a href="/about.astro">About</a>
+					<a href="/blog/">Blog</a>
+					<a href="/sermons/">Sermons</a>
+					<a href="/search.astro">Search</a>
+				</div>
+			</nav>
+		</header>
+		<main>
+			<slot />
+		</main>
+	</body>
+</html>

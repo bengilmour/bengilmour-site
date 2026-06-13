@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const sermons = await getCollection('sermons');
+  return sermons.map((sermon) => ({
+    params: { slug: sermon.id },
+    props: { sermon },
+  }));
+}
+
+const { sermon } = Astro.props;
+const { Content } = await render(sermon);
+---
+
+<Layout title={sermon.data.title}>
+  <article>
+    <h1>{sermon.data.title}</h1>
+    <p>{sermon.data.description}</p>
+    <Content />
+  </article>
+</Layout>
