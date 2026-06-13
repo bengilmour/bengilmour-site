@@ -9,6 +9,3 @@ compatibility_date = "2026-06-13"
   bucket = "./public"
   entry-point = "functions"
 
-[assets]
-  binding = "PUBLIC_ASSETS"
-  directory = "./public"
